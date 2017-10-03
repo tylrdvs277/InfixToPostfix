@@ -4,15 +4,13 @@
 # Assignment:  Assignment 2
 # Term:        Fall 2017
 
-from Stacks import StackArray
-
 def infix_to_postfix(infixexpr): 
     """Converts an infix expression to an equivalent postfix expression"""
     """Signature:  a string containing an infix expression where tokens 
     are space separated is the single input parameter and returns a string 
     containing a postfix expression where tokens are space separated"""
-    op_stack = StackArray(30)
     tokens = infixexpr.split(" ")
+    op_stack = StackArray(len(tokens))
     output = []
     for token in tokens:
         if is_num(token):
@@ -108,3 +106,39 @@ def postfix_valid(postfixExpr):
                 return False
             num_on_stack -= 1
     return num_on_stack == 1
+
+
+class StackArray:
+    """Implements an efficient last-in first-out Abstract Data Type using a Python List"""
+
+    def __init__(self, capacity):
+        """Creates and empty stack with a capacity"""
+        self.capacity= capacity
+        self.items = [None]*capacity
+        self.num_items = 0 
+
+    def is_empty(self):
+        """Returns true if the stack self is empty and false otherwise"""
+        return self.num_items == 0
+
+    def is_full(self):
+        """Returns true if the stack self is full and false otherwise"""
+        return self.num_items == self.capacity
+
+    def push(self, item):
+        """Returns puts item on the top of the Stack"""
+        self.items[self.num_items]=item
+        self.num_items += 1
+
+    def pop(self):
+        """Returns item on the top of the stack and removes it"""
+        self.num_items -= 1
+        return self.items[self.num_items]
+
+    def peek(self):
+        """Returns item on the top of the stack but does not remove it"""
+        return self.items[self.num_items-1]
+
+    def size(self):
+       """Returns the number of items in the stack"""
+       return self.num_items
